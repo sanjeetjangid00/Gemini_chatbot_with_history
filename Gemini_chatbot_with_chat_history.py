@@ -52,7 +52,7 @@ if chat:
     result = app.invoke({"messages": state["messages"]}, config=config)
     response_message = result["messages"][-1]
     response_text = parser.invoke(response_message)
-    
+    st.chat_message("human").write_stream(stream_data(chat))
     with st.spinner("Generating...."):        
         st.chat_message("ai").write_stream(stream_data(response_text))
         st.session_state["chat_history"].append(response_message)
