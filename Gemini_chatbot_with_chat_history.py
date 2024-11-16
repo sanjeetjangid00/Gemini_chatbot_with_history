@@ -37,7 +37,6 @@ parser = StrOutputParser()
 if "chat_history" not in st.session_state:
     st.session_state["chat_history"] = []
 def stream_data(response):
-            st.write(":green[Gemini] :robot_face: :")
             for word in response.text.split(" "):
                 yield word + " "
                 time.sleep(0.02)
@@ -53,7 +52,7 @@ if chat:
     response_text = parser.invoke(response_message)
     
     with st.spinner("Generating...."):        
-        st.chat_message("ai").write(st.write_stream(stream_data(response_text)))
+        st.chat_message("ai").write_stream(stream_data(response_text)))
         st.session_state["chat_history"].append(response_message)
 else:
     st.warning("Please enter a message")
