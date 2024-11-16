@@ -37,7 +37,7 @@ parser = StrOutputParser()
 if "chat_history" not in st.session_state:
     st.session_state["chat_history"] = []
 def stream_data(response):
-            for word in response.text.split(" "):
+            for word in response.split(" "):
                 yield word + " "
                 time.sleep(0.02)
 
