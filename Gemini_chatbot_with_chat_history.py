@@ -8,7 +8,8 @@ from dotenv import load_dotenv
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import START, StateGraph, MessagesState
 
-st.title(":blue[Gemini Chatbot]")
+st.write('<h1 style="text-align: center; color: blue;">Gemini Chatbot</h1>', unsafe_allow_html=True)
+
 load_dotenv()
 
 os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
