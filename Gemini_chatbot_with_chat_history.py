@@ -57,4 +57,5 @@ if chat:
         st.chat_message("ai").write_stream(stream_data(response_text))
         st.session_state["chat_history"].append(response_message)
 else:
+    st.chat_message("ai").write("Hello! How can I help you today?")
     st.warning("Please enter a message")
