@@ -8,51 +8,65 @@ from langgraph.graph import START, StateGraph, MessagesState
 
 st.write('<h1 style="text-align: center; color: blue;">Gemini Chatbot</h1>', unsafe_allow_html=True)
 
-
 LANGCHAIN_API_KEY = st.secrets["LANGCHAIN_API_KEY"]
 LANGCHAIN_PROJECT = st.secrets["LANGCHAIN_PROJECT"]
 LANGCHAIN_ENDPOINT = st.secrets["LANGCHAIN_ENDPOINT"]
 LANGCHAIN_TRACING_V2 = st.secrets["LANGCHAIN_TRACING_V2"]
 GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
 
-model = ChatGoogleGenerativeAI(model = "gemini-pro")
+model = ChatGoogleGenerativeAI(model="gemini-pro")
 
-workflow = StateGraph(state_schema= MessagesState)
+workflow = StateGraph(state_schema=MessagesState)
 
-def call_model(state:MessagesState):
+def call_model(state: MessagesState):
     response = model.invoke(state['messages'])
-    return {"messages":response}
+    return {"messages": response}
 
 workflow.add_edge(START, 'model')
 workflow.add_node("model", call_model)
 
 memory = MemorySaver()
-app = workflow.compile(checkpointer = memory)
+app = workflow.compile(checkpointer=memory)
 
-config = {"configurable":{"thread_id":"abc123"}}
+config = {"configurable": {"thread_id": "abc123"}}
 parser = StrOutputParser()
 
 # Initialize session state for chat history
 if "chat_history" not in st.session_state:
-    st.session_state["chat_history"] = ["You are a conversational ai chatbot created by sanjeet jangid."]
+    st.session_state["chat_history"] = []
+
 def stream_data(response):
-            for word in response.split(" "):
-                yield word + " "
-                time.sleep(0.02)
+    for word in response.split(" "):
+        yield word + " "
+        time.sleep(0.02)
+
+# Function to handle predefined responses
+def handle_predefined_responses(user_input):
+    # Convert input to lowercase for easier matching
+    user_input = user_input.lower()
+
+    if "who are you" in user_input or "what are you" in user_input:
+        return "I am a conversational chatbot created by Sanjeet Jangid."
+    return None
 
 chat = st.chat_input("Enter your message:")
 if chat:
     st.session_state["chat_history"].append(HumanMessage(str(chat)))
 
-    # Prepare the message state
-    state = MessagesState(messages=st.session_state["chat_history"])
-    result = app.invoke({"messages": state["messages"]}, config=config)
-    response_message = result["messages"][-1]
-    response_text = parser.invoke(response_message)
-    st.chat_message("human").write_stream(stream_data(chat))
-    with st.spinner("Generating...."):        
-        st.chat_message("ai").write_stream(stream_data(response_text))
-        st.session_state["chat_history"].append(response_message)
+    # Check for predefined responses
+    predefined_response = handle_predefined_responses(chat)
+    if predefined_response:
+        st.chat_message("ai").write_stream(stream_data(predefined_response))
+    else:
+        # Prepare the message state
+        state = MessagesState(messages=st.session_state["chat_history"])
+        result = app.invoke({"messages": state["messages"]}, config=config)
+        response_message = result["messages"][-1]
+        response_text = parser.invoke(response_message)
+        st.chat_message("human").write_stream(stream_data(chat))
+        with st.spinner("Generating...."):
+            st.chat_message("ai").write_stream(stream_data(response_text))
+            st.session_state["chat_history"].append(response_message)
 else:
     st.chat_message("ai").write("Hello! How can I help you today?")
     st.warning("Please enter a message")
