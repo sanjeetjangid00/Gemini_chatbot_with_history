@@ -1,4 +1,3 @@
-import os
 import time
 import streamlit as st
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -14,7 +13,7 @@ LANGCHAIN_API_KEY = st.secrets["LANGCHAIN_API_KEY"]
 LANGCHAIN_PROJECT = st.secrets["LANGCHAIN_PROJECT"]
 LANGCHAIN_ENDPOINT = st.secrets["LANGCHAIN_ENDPOINT"]
 LANGCHAIN_TRACING_V2 = st.secrets["LANGCHAIN_TRACING_V2"]
-os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
+GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
 
 model = ChatGoogleGenerativeAI(model = "gemini-pro")
 
