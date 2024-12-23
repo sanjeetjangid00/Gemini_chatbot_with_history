@@ -34,18 +34,16 @@ parser = StrOutputParser()
 # Initialize session state for chat history
 if "chat_history" not in st.session_state:
     # Preload with a system message introducing the bot and mentioning its creator
-    st.session_state["chat_history"] = [
-        "You are a conversational AI chatbot created by Sanjeet Jangid. You are helpful, professional, and informative."
-    ]
+    st.session_state["chat_history"] = []
 
 def stream_data(response):
     for word in response.split(" "):
         yield word + " "
         time.sleep(0.02)
-
+template = "You are a conversational chatbot created by Sanjeet Jangid.you have to give response of user chats. User Chat = "
 chat = st.chat_input("Enter your message:")
 if chat:
-    st.session_state["chat_history"].append(HumanMessage(str(chat)))
+    st.session_state["chat_history"].append(HumanMessage(template + str(chat)))
 
     # Prepare the message state
     state = MessagesState(messages=st.session_state["chat_history"])
