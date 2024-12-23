@@ -6,7 +6,7 @@ from langchain_core.messages import HumanMessage
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import START, StateGraph, MessagesState
 
-st.write('<h1 style="text-align: center; color: blue;">Gemini Chatbot</h1>', unsafe_allow_html=True)
+st.write('<h1 style="text-align: center; color: blue;">AI Chatbot</h1>', unsafe_allow_html=True)
 
 LANGCHAIN_API_KEY = st.secrets["LANGCHAIN_API_KEY"]
 LANGCHAIN_PROJECT = st.secrets["LANGCHAIN_PROJECT"]
