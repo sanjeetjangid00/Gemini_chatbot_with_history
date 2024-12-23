@@ -34,7 +34,7 @@ parser = StrOutputParser()
 
 # Initialize session state for chat history
 if "chat_history" not in st.session_state:
-    st.session_state["chat_history"] = []
+    st.session_state["chat_history"] = ["You are a conversational ai chatbot created by sanjeet jangid."]
 def stream_data(response):
             for word in response.split(" "):
                 yield word + " "
