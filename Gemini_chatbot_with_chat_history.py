@@ -33,40 +33,29 @@ parser = StrOutputParser()
 
 # Initialize session state for chat history
 if "chat_history" not in st.session_state:
-    st.session_state["chat_history"] = []
+    # Preload with a system message introducing the bot and mentioning its creator
+    st.session_state["chat_history"] = [
+        "You are a conversational AI chatbot created by Sanjeet Jangid. You are helpful, professional, and informative."
+    ]
 
 def stream_data(response):
     for word in response.split(" "):
         yield word + " "
         time.sleep(0.02)
 
-# Function to handle predefined responses
-def handle_predefined_responses(user_input):
-    # Convert input to lowercase for easier matching
-    user_input = user_input.lower()
-
-    if "who are you" in user_input or "what are you" in user_input:
-        return "I am a conversational chatbot created by Sanjeet Jangid."
-    return None
-
 chat = st.chat_input("Enter your message:")
 if chat:
     st.session_state["chat_history"].append(HumanMessage(str(chat)))
 
-    # Check for predefined responses
-    predefined_response = handle_predefined_responses(chat)
-    if predefined_response:
-        st.chat_message("ai").write_stream(stream_data(predefined_response))
-    else:
-        # Prepare the message state
-        state = MessagesState(messages=st.session_state["chat_history"])
-        result = app.invoke({"messages": state["messages"]}, config=config)
-        response_message = result["messages"][-1]
-        response_text = parser.invoke(response_message)
-        st.chat_message("human").write_stream(stream_data(chat))
-        with st.spinner("Generating...."):
-            st.chat_message("ai").write_stream(stream_data(response_text))
-            st.session_state["chat_history"].append(response_message)
+    # Prepare the message state
+    state = MessagesState(messages=st.session_state["chat_history"])
+    result = app.invoke({"messages": state["messages"]}, config=config)
+    response_message = result["messages"][-1]
+    response_text = parser.invoke(response_message)
+    st.chat_message("human").write_stream(stream_data(chat))
+    with st.spinner("Generating...."):
+        st.chat_message("ai").write_stream(stream_data(response_text))
+        st.session_state["chat_history"].append(response_message)
 else:
     st.chat_message("ai").write("Hello! How can I help you today?")
     st.warning("Please enter a message")
