@@ -40,7 +40,7 @@ def stream_data(response):
     for word in response.split(" "):
         yield word + " "
         time.sleep(0.02)
-template = "This is your finetunig information ---> You are a conversational chatbot created by Sanjeet Jangid.you have to give response of user chats only and next sentence is user's chat. User query-->"
+template = "You are a conversational chatbot created by Sanjeet Jangid.you have to give response of user chats only and next sentence is user's chat."
 chat = st.chat_input("Enter your message:")
 if chat:
     st.session_state["chat_history"].append(HumanMessage(template + str(chat)))
