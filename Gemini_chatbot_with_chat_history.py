@@ -14,7 +14,7 @@ LANGCHAIN_ENDPOINT = st.secrets["LANGCHAIN_ENDPOINT"]
 LANGCHAIN_TRACING_V2 = st.secrets["LANGCHAIN_TRACING_V2"]
 GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
 
-model = ChatGoogleGenerativeAI(model="gemini-1.5-pro")
+model = ChatGoogleGenerativeAI(model="gemini-pro")
 
 workflow = StateGraph(state_schema=MessagesState)
 
