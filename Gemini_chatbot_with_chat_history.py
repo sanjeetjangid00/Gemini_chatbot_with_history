@@ -54,8 +54,8 @@ if chat:
     response_message = result["messages"][-1]
     response_text = parser.invoke(response_message)
     #st.chat_message("human").write_stream(stream_data(chat))
-    with st.chat_message("user"):
-        st.text(chat)
+    # with st.chat_message("user"):
+    #     st.text(chat)
     st.session_state["chat_history"].append({'role':'assistant', 'content' : response_text})
    # with st.spinner("Generating...."):
     with st.chat_message("ai"):
