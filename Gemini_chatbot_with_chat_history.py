@@ -51,6 +51,7 @@ if chat:
     response_message = result["messages"][-1]
     response_text = parser.invoke(response_message)
     st.chat_message("human").write_stream(stream_data(chat))
+    st.text(st.session_state['chat_history'])
     with st.spinner("Generating...."):
         st.chat_message("ai").write_stream(stream_data(response_text))
         st.session_state["chat_history"].append(response_message)
