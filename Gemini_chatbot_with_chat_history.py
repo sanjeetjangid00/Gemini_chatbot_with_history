@@ -34,8 +34,7 @@ parser = StrOutputParser()
 # Initialize session state for chat history
 if "chat_history" not in st.session_state:
     # Preload with a system message introducing the bot and mentioning its creator
-    st.session_state["chat_history"] = {"User":[], "AI":[]}
-
+    st.session_state["chat_history"] =[]
 def stream_data(response):
     for word in response.split(" "):
         yield word + " "
@@ -43,7 +42,7 @@ def stream_data(response):
         
 chat = st.chat_input("Enter your message:")
 if chat:
-    st.session_state["chat_history"]["User"].append(HumanMessage(str(chat)))
+    st.session_state["chat_history"].append(HumanMessage(str(chat)))
 
     # Prepare the message state
     state = MessagesState(messages=st.session_state["chat_history"])
@@ -51,10 +50,14 @@ if chat:
     response_message = result["messages"][-1]
     response_text = parser.invoke(response_message)
     st.chat_message("human").write_stream(stream_data(chat))
-    st.text(st.session_state['chat_history']['User'])
+    for chat_hist in st.session_state['chat_history]:
+        if chat_hist.HumanMessage:
+            st.text(chat_hist.content)
+        else:
+            st.text(chat_hist.content)
     with st.spinner("Generating...."):
         st.chat_message("ai").write_stream(stream_data(response_text))
-        st.session_state["chat_history"]["AI"].append(response_message)
+        st.session_state["chat_history"].append(response_message)
 else:
     st.chat_message("ai").write("Hello! How can I help you today?")
     st.warning("Please enter a message")
