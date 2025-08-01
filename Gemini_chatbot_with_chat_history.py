@@ -50,7 +50,7 @@ if chat:
     response_message = result["messages"][-1]
     response_text = parser.invoke(response_message)
     st.chat_message("human").write_stream(stream_data(chat))
-    for chat_hist in st.session_state['chat_history]:
+    for chat_hist in st.session_state['chat_history].values():
         if chat_hist.HumanMessage:
             st.text(chat_hist.content)
         else:
