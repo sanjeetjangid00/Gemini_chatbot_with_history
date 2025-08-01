@@ -34,7 +34,7 @@ parser = StrOutputParser()
 # Initialize session state for chat history
 if "chat_history" not in st.session_state:
     # Preload with a system message introducing the bot and mentioning its creator
-    st.session_state["chat_history"] = [{"User":[], "AI":[]}]
+    st.session_state["chat_history"] = {"User":[], "AI":[]}
 
 def stream_data(response):
     for word in response.split(" "):
