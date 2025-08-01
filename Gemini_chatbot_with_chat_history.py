@@ -43,7 +43,7 @@ def stream_data(response):
 chat = st.chat_input("Enter your message:")
 for message in st.session_state['chat_history']:
     with st.chat_message(message['role']):
-        st.text(message.content)
+        st.text(message['content'])
 if chat:
     st.session_state["chat_history"].append({'role':'user', 'content' : chat})
    # st.session_state["chat_history"].append(HumanMessage(str(chat)))
