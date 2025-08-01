@@ -41,19 +41,26 @@ def stream_data(response):
         time.sleep(0.02)
         
 chat = st.chat_input("Enter your message:")
+for message in st.session_state['chat_history']:
+    with st.chat_message(message['role']:
+        st.text(message.content)
 if chat:
-    st.session_state["chat_history"].append(HumanMessage(str(chat)))
+    st.session_state["chat_history"].append({'role':'user', 'content' : chat}
+   # st.session_state["chat_history"].append(HumanMessage(str(chat)))
 
     # Prepare the message state
     state = MessagesState(messages=st.session_state["chat_history"])
     result = app.invoke({"messages": state["messages"]}, config=config)
     response_message = result["messages"][-1]
     response_text = parser.invoke(response_message)
-    st.chat_message("human").write_stream(stream_data(chat))
-    for chat_hist in st.session_state['chat_history']:
-            st.text(chat_hist.content)
-    with st.spinner("Generating...."):
-        st.chat_message("ai").write_stream(stream_data(response_text))
+    #st.chat_message("human").write_stream(stream_data(chat))
+    with st.chat_message("user"):
+        st.text(chat)
+    st.session_state["chat_history"].append({'role':'assistant', 'content' : response_text}
+   # with st.spinner("Generating...."):
+    with st.chat_message("ai"):
+        st.text(response_text)
+        #st.write_stream(stream_data(response_text))
         st.session_state["chat_history"].append(response_message)
 else:
     st.chat_message("ai").write("Hello! How can I help you today?")
