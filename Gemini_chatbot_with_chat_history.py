@@ -45,7 +45,7 @@ for message in st.session_state['chat_history']:
     with st.chat_message(message['role']):
         st.text(message.content)
 if chat:
-    st.session_state["chat_history"].append({'role':'user', 'content' : chat}
+    st.session_state["chat_history"].append({'role':'user', 'content' : chat})
    # st.session_state["chat_history"].append(HumanMessage(str(chat)))
 
     # Prepare the message state
@@ -56,7 +56,7 @@ if chat:
     #st.chat_message("human").write_stream(stream_data(chat))
     with st.chat_message("user"):
         st.text(chat)
-    st.session_state["chat_history"].append({'role':'assistant', 'content' : response_text}
+    st.session_state["chat_history"].append({'role':'assistant', 'content' : response_text})
    # with st.spinner("Generating...."):
     with st.chat_message("ai"):
         st.text(response_text)
