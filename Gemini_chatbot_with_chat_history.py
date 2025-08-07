@@ -45,7 +45,7 @@ if "chat_history" not in st.session_state:
 for message in st.session_state["chat_history"]:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
-    if message["role"] =='user:
+    if message["role"] =='user':
         st.markdown(
             f'<div style="display: flex; justify-content: flex-end; margin: 10px 0;">'
             f'<div style="background-color: #D3E4FF; border-radius: 15px; padding: 10px; max-width: 110%; display: flex; align-items: center;">'
@@ -89,4 +89,5 @@ if chat:
 
 elif not st.session_state["chat_history"]:
     st.chat_message("assistant").write("Hello! How can I help you today?")
+
 
