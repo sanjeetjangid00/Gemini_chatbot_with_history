@@ -45,6 +45,14 @@ if "chat_history" not in st.session_state:
 for message in st.session_state["chat_history"]:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
+    if message["role"] =='user:
+        st.markdown(
+            f'<div style="display: flex; justify-content: flex-end; margin: 10px 0;">'
+            f'<div style="background-color: #D3E4FF; border-radius: 15px; padding: 10px; max-width: 110%; display: flex; align-items: center;">'
+            f'<img src="https://img.icons8.com/ios/452/user-male-circle.png" style="vertical-align: middle; width: 25px; height: 25px; margin-right: 10px;" />'
+            f'{message["content"]}</div></div>',
+            unsafe_allow_html=True
+        )
 
 # Input
 chat = st.chat_input("Enter your message:")
@@ -81,3 +89,4 @@ if chat:
 
 elif not st.session_state["chat_history"]:
     st.chat_message("assistant").write("Hello! How can I help you today?")
+
