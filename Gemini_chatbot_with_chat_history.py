@@ -43,8 +43,6 @@ if "chat_history" not in st.session_state:
 
 # Display chat history
 for message in st.session_state["chat_history"]:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
     if message["role"] =='user':
         st.markdown(
             f'<div style="display: flex; justify-content: flex-end; margin: 10px 0;">'
@@ -59,8 +57,13 @@ chat = st.chat_input("Enter your message:")
 
 if chat:
     # Show user message
-    with st.chat_message("user"):
-        st.markdown(chat)
+    st.markdown(
+            f'<div style="display: flex; justify-content: flex-end; margin: 10px 0;">'
+            f'<div style="background-color: #D3E4FF; border-radius: 15px; padding: 10px; max-width: 110%; display: flex; align-items: center;">'
+            f'<img src="https://img.icons8.com/ios/452/user-male-circle.png" style="vertical-align: middle; width: 25px; height: 25px; margin-right: 10px;" />'
+            f'{chat}</div></div>',
+            unsafe_allow_html=True
+        )
 
     # Add to history
     st.session_state["chat_history"].append({"role": "user", "content": chat})
@@ -82,12 +85,23 @@ if chat:
     response_text = parser.invoke(response_message)
 
     # Show and store assistant message
-    with st.chat_message("assistant"):
-        st.markdown(response_text)
+
+    st.markdown(
+        f'<div style="text-align: left; background-color: #E0F7FA; border-radius: 15px; padding: 10px; max-width: 110%; margin: 10px 0; display: inline-block;">'
+        f'<img src="https://img.icons8.com/ios/452/artificial-intelligence.png" style="vertical-align: middle; width: 25px; height: 25px; margin-right: 10px;" />'
+        f'{response_text}</div>',
+        unsafe_allow_html=True
+    )
 
     st.session_state["chat_history"].append({"role": "assistant", "content": response_text})
 
 elif not st.session_state["chat_history"]:
-    st.chat_message("assistant").write("Hello! How can I help you today?")
+    st.markdown(
+        f'<div style="text-align: left; background-color: #E0F7FA; border-radius: 15px; padding: 10px; max-width: 110%; margin: 10px 0; display: inline-block;">'
+        f'<img src="https://img.icons8.com/ios/452/artificial-intelligence.png" style="vertical-align: middle; width: 25px; height: 25px; margin-right: 10px;" />'
+        f'{"Hello! How can I help you today?"}</div>',
+        unsafe_allow_html=True
+    )
+
 
 
