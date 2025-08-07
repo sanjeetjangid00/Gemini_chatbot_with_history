@@ -51,6 +51,13 @@ for message in st.session_state["chat_history"]:
             f'{message["content"]}</div></div>',
             unsafe_allow_html=True
         )
+    else:
+         st.markdown(
+        f'<div style="text-align: left; background-color: #E0F7FA; border-radius: 15px; padding: 10px; max-width: 110%; margin: 10px 0; display: inline-block;">'
+        f'<img src="https://img.icons8.com/ios/452/artificial-intelligence.png" style="vertical-align: middle; width: 25px; height: 25px; margin-right: 10px;" />'
+        f'{message["content"]}</div>',
+        unsafe_allow_html=True
+    )
 
 # Input
 chat = st.chat_input("Enter your message:")
@@ -102,6 +109,7 @@ elif not st.session_state["chat_history"]:
         f'{"Hello! How can I help you today?"}</div>',
         unsafe_allow_html=True
     )
+
 
 
 
